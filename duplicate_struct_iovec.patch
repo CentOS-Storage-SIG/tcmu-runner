@@ -1,0 +1,43 @@
+From 209594010c5abbebd64c45a76c2a92dbe37024a3 Mon Sep 17 00:00:00 2001
+From: Lee Duncan <lduncan@suse.com>
+Date: Wed, 25 Oct 2017 18:34:35 -0700
+Subject: [PATCH] Fix "duplicate struct iovec" error.
+
+This commit fixes a build issue found with the 4.13 and
+forward kernels, where an error message saying
+"duplicate struct iovec" occurs when including
+target_core_user_local.h by moving/changing
+the include of uio.h.
+
+Changes Since V1:
+ * Added include of sys/uio.h in consumer.c to
+   enable compilation with older kernels.
+---
+ consumer.c               | 1 +
+ target_core_user_local.h | 1 -
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/consumer.c b/consumer.c
+index 723654f..6f822af 100644
+--- a/consumer.c
++++ b/consumer.c
+@@ -34,6 +34,7 @@
+ #include <sys/mman.h>
+ #include <signal.h>
+ #include <poll.h>
++#include <sys/uio.h>
+ 
+ #include <stdint.h>
+ #include <scsi/scsi.h>
+diff --git a/target_core_user_local.h b/target_core_user_local.h
+index 2cdb3e5..3cff36e 100644
+--- a/target_core_user_local.h
++++ b/target_core_user_local.h
+@@ -4,7 +4,6 @@
+ /* This header will be used by application too */
+ 
+ #include <linux/types.h>
+-#include <linux/uio.h>
+ 
+ #define TCMU_VERSION "2.0"
+ 
