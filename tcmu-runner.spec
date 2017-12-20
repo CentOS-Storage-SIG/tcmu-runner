@@ -1,6 +1,6 @@
 # To disable particular handlers, remove the comment and space
 #% global without_glfs -Dwith-glfs=FALSE
-#% global without_rbd -Dwith-rbd=FALSE
+%global without_rbd -Dwith-rbd=FALSE
 
 Name:           tcmu-runner
 License:        ASL 2.0
@@ -8,7 +8,7 @@ Group:          System Environment/Daemons
 Summary:        A daemon that supports LIO userspace backends
 Version:        1.3.0
 %global         candidate    rc4
-Release:        %{?candidate:0.}1%{?candidate}%{?dist}
+Release:        %{?candidate:0.}2%{?candidate}%{?dist}
 URL:            https://github.com/open-iscsi/tcmu-runner
 Source:         %{url}/archive/v%{version}%{?candidate:-%{candidate}}.tar.gz#/%{name}-%{version}%{?candidate:-%{candidate}}.tar.gz
 # patch from https://github.com/open-iscsi/tcmu-runner/pull/322
@@ -132,6 +132,9 @@ install -m 644 tcmu-runner.h %{buildroot}%{_includedir}/tcmu-runner.h
 
 
 %changelog
+* Wed Dec 20 2017 Niels de Vos <ndevos@redhat.com> - 1.3.0-0.2rc4
+- do not build tcmu-runner-handler-rbd
+
 * Tue Nov 21 2017 Niels de Vos <ndevos@redhat.com> - 1.3.0-0.1rc4
 - Update to version 1.3.0-rc4
 - Place Gluster and Ceph RBD handlers in their own sub-package
